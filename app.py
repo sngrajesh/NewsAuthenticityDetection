@@ -24,6 +24,21 @@ def preprocess_text(text):
     words = [word for word in words if word not in stopwords.words('english')]
     return ' '.join(words)
 
+
+# For the API endpoint
+@app.route('/predict', methods=['POST'])
+def predict():
+    if request.method == 'POST':
+        if request.form['news_text'] == '':
+            return 'Please provide a news text.'
+        news_text = request.form['news_text']
+        preprocessed_text = preprocess_text(news_text)
+        vectorized_text = vectorizer.transform([preprocessed_text])
+        prediction = model.predict(vectorized_text)[0]        
+        return str(prediction)
+
+
+# For the web ui
 @app.route('/', methods=['GET', 'POST'])
 def home(): 
     prediction = None
