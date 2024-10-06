@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: NewsAuthenticityDetection
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn -w 4 app:app"  # Ensure you reference your actual Flask app file
+    plan: free  #
+    autoDeploy: true 
